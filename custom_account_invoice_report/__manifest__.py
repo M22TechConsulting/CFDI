@@ -2,7 +2,7 @@
 {
     'name': "Reporte de facturas personalizado",
     'summary': """
-        Personalización de reporte de facturas.
+        Personalización de reporte de facturas
     """,
     'description': """
         Personalización de reporte de facturas con un formato diferente al usado por odoo.
