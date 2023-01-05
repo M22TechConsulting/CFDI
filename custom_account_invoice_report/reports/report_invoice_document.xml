@@ -167,7 +167,8 @@
                                         </table>
                                     </td>
 
-                                    <td width="50%" style="border-left: 1px solid #000;border-right: 1px solid #000;padding-left: 10px;padding-right: 10px;!important">
+                                    <td width="50%"
+                                        style="border-left: 1px solid #000;border-right: 1px solid #000;padding-left: 10px;padding-right: 10px;!important">
                                         <table width="100%">
                                             <thead>
                                                 <tr style="font-size: 16px;">
@@ -370,11 +371,15 @@
                                         <tr t-if="o.move_type == 'out_invoice' and o._get_invoiced_lot_values()"
                                             style="border:none;justify-content: normal;">
                                             <t t-set="lot_ids" t-value="list()"/>
-                                            <t t-foreach="o._get_invoiced_lot_values()" t-as="lots">
-                                                <t t-if="line.product_id.display_name == lots.get('product_name')">
-                                                    <td t-esc="lots.get('lot_name')"/>
+                                            <td>
+                                                <t t-foreach="o._get_invoiced_lot_values()" t-as="lots">
+                                                    <t t-if="line.product_id.display_name == lots.get('product_name')">
+                                                        <span t-esc="lots.get('lot_name')"/>
+                                                        <span>   </span>
+                                                    </t>
                                                 </t>
-                                            </t>
+                                            </td>
+
                                         </tr>
 
                                         <t t-if="current_section and (line_last or lines[line_index+1].display_type == 'line_section')">
