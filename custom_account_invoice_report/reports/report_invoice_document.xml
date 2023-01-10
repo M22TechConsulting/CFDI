@@ -30,9 +30,9 @@
                         border: none;
                         }
                     </style>
+                    <t t-set="o" t-value="o.with_context(lang=lang)"/>
                     <t t-set="cfdi_vals" t-value="o._l10n_mx_edi_decode_cfdi()"/>
                     <t t-set="is_cfdi_signed" t-value="bool(o._get_l10n_mx_edi_signed_edi_document())"/>
-                    <t t-set="o" t-value="o.with_context(lang=lang)"/>
                     <t t-set="forced_vat"
                        t-value="o.fiscal_position_id.foreign_vat"/> <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
                     <div t-if="o.move_type != 'out_invoice'" class="row">
@@ -97,6 +97,21 @@
                                 <span style="font-family:Arial Greek;font-size: 22px" t-if="o.company_id.name != '/'"
                                       t-field="o.company_id.name"/>
                             </h5>
+
+                            <table width="100%">
+                                <tr>
+                                    <td class="text-start">
+                                        <span t-esc="o.company_id.website"/>
+                                    </td>
+                                    <td class="text-center">
+                                        <span t-esc="o.company_id.phone or o.company_id.mobile"/>
+                                    </td>
+                                    <td class="text-end">
+                                        <span t-esc="o.company_id.email"/>
+                                    </td>
+                                </tr>
+                            </table>
+
                             <table width="100%">
                                 <tr style="padding-top: 0px;!important">
                                     <th rowspan="4">
@@ -140,7 +155,7 @@
                                                 </tr>
                                                 <tr>
                                                     <td style="font-size: 12px;">
-                                                        <strong t-esc="'RFC: {}'.format(o.partner_id.vat)"/>
+                                                        <strong t-esc="'RFC: {}'.format(o.l10n_mx_edi_cfdi_customer_rfc)"/>
                                                     </td>
                                                 </tr>
                                                 <tr>
@@ -368,10 +383,10 @@
                                                 </td>
                                             </t>
                                         </tr>
-                                        <tr t-if="o.move_type == 'out_invoice' and o._get_invoiced_lot_values()"
+                                        <tr t-if="o._get_invoiced_lot_values()"
                                             style="border:none;justify-content: normal;">
                                             <t t-set="lot_ids" t-value="list()"/>
-                                            <td>
+                                            <td colspan="99">
                                                 <t t-foreach="o._get_invoiced_lot_values()" t-as="lots">
                                                     <t t-if="line.product_id.display_name == lots.get('product_name')">
                                                         <span t-esc="lots.get('lot_name')"/>
@@ -397,7 +412,9 @@
 
                             <div t-if="o.move_type == 'out_invoice'" class="clearfix mb-4">
                                 <div id="total" class="row">
-                                    <div t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
+
+                                    <div width="80%"
+                                         t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
                                         <table class="table table-sm" style="page-break-inside: avoid;">
                                             <t t-set="tax_totals" t-value="o.tax_totals"/>
 
@@ -445,34 +462,40 @@
                             </div>
 
                             <t t-if="is_cfdi_signed">
+                                <p>
+                                    <strong style="font-size:12px;" t-esc="o._l10n_mx_edi_cfdi_amount_to_text()"/>
+                                </p>
+                            </t>
+
+                            <t t-if="is_cfdi_signed">
                                 <div class="row" id="complement">
                                     <div t-if="cfdi_vals.get('sello')" class="barcode col-3">
                                         <img alt="Barcode"
                                              t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=180&amp;height=180' % quote_plus(                             'https://verificacfdi.facturaelectronica.sat.gob.mx/default.aspx?' + keep_query(                                 re=o.l10n_mx_edi_cfdi_supplier_rfc, rr=o.l10n_mx_edi_cfdi_customer_rfc,                                 tt='%.*f' % (o.currency_id.decimal_places, o.l10n_mx_edi_cfdi_amount), id=o.l10n_mx_edi_cfdi_uuid)                                 + '&amp;fe=%s' % quote_plus(                                     cfdi_vals['sello'][-8:], 'utf-8', 'strict', '=/').replace('%2B', '+'))"/>
                                     </div>
-                                    <div class="complement-details col-9">
+                                    <div style="font-size:11px;" class="col-9">
                                         <div class="digital-stamp">
                                             <span>Digital stamp of the emitter</span>
                                         </div>
-                                        <div class="digital-stamp-content">
+                                        <div>
                                             <span t-esc="cfdi_vals.get('sello')"/>
                                         </div>
                                         <div class="digital-stamp">
                                             <span>Digital stamp SAT</span>
                                         </div>
-                                        <div class="digital-stamp-content">
+                                        <div>
                                             <span t-esc="cfdi_vals.get('sello_sat')"/>
                                         </div>
                                         <div class="digital-stamp">
                                             <span>Original chain complement of digital certification SAT</span>
                                         </div>
-                                        <div class="digital-stamp-content">
+                                        <div>
                                             <span class="nowrap" t-esc="cfdi_vals.get('cadena')"/>
                                         </div>
                                         <div class="digital-stamp">
                                             <span>Extra Info</span>
                                         </div>
-                                        <div class="digital-stamp-content">
+                                        <div>
                                             <span>Emitter certificate:</span>
                                             <span t-esc="cfdi_vals.get('certificate_number')"/>
                                             <span>| SAT Certificate:</span>
@@ -488,17 +511,11 @@
                                             <span>| Fiscal Folio:</span>
                                             <span t-esc="cfdi_vals.get('uuid')"/>
                                         </div>
-                                        <div class="digital-stamp-content text-center">
+                                        <div class="text-center">
                                             <strong>This document is a printed representation of a CFDI</strong>
                                         </div>
                                     </div>
                                 </div>
-                            </t>
-
-                            <t t-if="is_cfdi_signed">
-                                <p>
-                                    <strong style="font-size:12px;" t-esc="o._l10n_mx_edi_cfdi_amount_to_text()"/>
-                                </p>
                             </t>
 
                             <!--Cuentas bancarias-->
