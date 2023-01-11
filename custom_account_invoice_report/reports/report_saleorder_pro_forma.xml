@@ -32,7 +32,7 @@
 
                             <t t-call="custom_account_invoice_report.report_header_document_custom"/>
 
-                            <div class="page">
+                            <div style="padding-top:130px;" class="page">
 
                                 <!--Datos de los productos-->
                                 <!--___________________________________________________________-->
