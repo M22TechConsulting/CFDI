@@ -3,7 +3,7 @@
     <data>
 
         <template id="report_header_document_custom">
-            <div class="header">
+            <div class="header without_border">
                 <div>
                     <h5 class="text-center">
                         <span style="font-family:Arial Greek;font-size: 22px"
@@ -80,17 +80,18 @@
                                                 <strong t-esc="'RFC: {}'.format(doc.partner_id.vat)"/>
                                             </td>
                                         </tr>
+
+                                        <tr>
+                                            <td class="border-o" style="font-size: 12px;">
+                                                <strong t-esc="'C.P:' "/>
+                                                <span t-esc="doc.partner_id.zip"/>
+                                            </td>
+                                        </tr>
+
                                         <tr>
                                             <td class="border-o" style="font-size: 12px;">
                                                 <strong t-esc="'Regimen fiscal:'"/>
                                                 <span t-esc="'({}) {}'.format(doc.partner_id.l10n_mx_edi_fiscal_regime, dict(doc.partner_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.partner_id.l10n_mx_edi_fiscal_regime))"/>
-
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="border-o" style="font-size: 12px;">
-                                                <strong t-esc="'Dirección:' "/>
-                                                <span t-esc="doc.partner_id.contact_address_complete"/>
                                             </td>
                                         </tr>
 
@@ -135,11 +136,18 @@
                     <table width="100%"
                            style="text-align:right;font-size: 14px;">
                         <tr>
-                            <td class="border-o" t-if="doc.client_order_ref"
+                            <td class="border-o" t-if="doc.name"
                                 style="text-align:left;padding-top: 10px;padding-bottom: 5px;!important;">
                                 <strong t-esc="'Referencia: '"/>
-                                <span t-esc="doc.client_order_ref"/>
+                                <span t-esc="doc.name"/>
                             </td>
+
+                            <td class="border-o" t-if="doc.partner_shipping_id"
+                                style="text-align:left;padding-top: 10px;padding-bottom: 5px;!important;">
+                                <strong t-esc="'Dirección de entrega: '"/>
+                                <span t-esc="doc.partner_shipping_id.contact_address_complete"/>
+                            </td>
+
                             <td class="border-o" style="text-right:left;padding-top: 10px;padding-bottom: 5px;!important;">
                                 <strong t-esc="'Vendedor: '"/>
                                 <span t-esc="doc.user_id.name"/>
