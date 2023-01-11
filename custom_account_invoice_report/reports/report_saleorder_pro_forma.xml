@@ -32,7 +32,7 @@
 
                         <t t-call="custom_account_invoice_report.report_header_document_custom"/>
 
-                        <div class="article" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id"
+                        <div class="article o_report_layout_standard" t-att-data-oe-model="doc and doc._name" t-att-data-oe-id="doc and doc.id"
                              t-att-data-oe-lang="doc and doc.env.context.get('lang')">
                             <t t-out="0"/>
                             <div style="padding-top:130px;" class="page">
@@ -242,6 +242,18 @@
                                         <strong>Fiscal Position Remark:</strong>
                                         <span t-field="doc.fiscal_position_id.sudo().note"/>
                                     </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div t-attf-class="footer o_standard_footer o_company_#{company.id}_layout">
+                            <div class="text-center" style="border-top: 1px solid black;">
+                                <ul class="list-inline mb4">
+                                    <div t-field="company.report_footer"/>
+                                </ul>
+
+                                <div t-if="report_type == 'pdf'" class="text-muted">
+                                    Page: <span class="page"/> / <span class="topage"/>
                                 </div>
                             </div>
                         </div>

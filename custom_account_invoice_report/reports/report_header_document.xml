@@ -3,148 +3,151 @@
     <data>
 
         <template id="report_header_document_custom">
-            <div t-attf-class="header">
-                <h5 class="text-center">
-                    <span style="font-family:Arial Greek;font-size: 22px"
-                          t-if="doc.company_id.name != '/'"
-                          t-field="doc.company_id.name"/>
-                </h5>
+            <div class="header">
+                <div>
+                    <h5 class="text-center">
+                        <span style="font-family:Arial Greek;font-size: 22px"
+                              t-if="doc.company_id.name != '/'"
+                              t-field="doc.company_id.name"/>
+                    </h5>
 
-                <table width="100%">
-                    <tr>
-                        <td class="text-start">
-                            <span t-esc="doc.company_id.website"/>
-                        </td>
-                        <td class="text-center">
-                            <span t-esc="doc.company_id.phone or doc.company_id.mobile"/>
-                        </td>
-                        <td class="text-end">
-                            <span t-esc="doc.company_id.email"/>
-                        </td>
-                    </tr>
-                </table>
-                <!--___________________________________________________________-->
-
-
-                <!--Datos del cliente y fiscales-->
-                <!--___________________________________________________________-->
-                <table width="100%">
-                    <tr style="padding-top: 0px;!important">
-                        <th rowspan="4">
-                            <img t-if="doc.company_id.logo"
-                                 t-att-src="image_data_uri(doc.company_id.logo)"
-                                 style="height: 120px;width=50px" alt="Logo"/>
-                        </th>
-                        <th colspan="3">
-                            <table width="100%">
-                                <thead>
-                                    <tr style="font-size: 14px;margin-top: 10px;!important;">
-                                        <th t-if="doc.company_id.vat"
-                                            style="padding-bottom: 5px;!important"
-                                            class="text-start"
-                                            t-esc="'RFC: ' + doc.company_id.vat"/>
-                                        <th class="text-start"
-                                            t-esc="'Regimen fiscal: ({}) {}'.format(doc.company_id.l10n_mx_edi_fiscal_regime, dict(doc.company_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.company_id.l10n_mx_edi_fiscal_regime))"/>
-                                    </tr>
-                                </thead>
-                            </table>
-                        </th>
-                    </tr>
-                    <br/>
-                    <tr style="padding-top: 25px;!important">
-                        <td/>
-                        <td style="font-size: 14px;justify-content:normal;padding-bottom: 5px;"
-                            colspan="2"
-                            t-esc="doc.company_id.partner_id.contact_address_complete"/>
-                    </tr>
-                    <br/>
-                    <tr>
-                        <td/>
-                        <td width="50%"
-                            style="border-left: 1px solid #000;padding-left: 10px;!important">
-                            <table style="margin-top: 10px;!important" width="100%">
-                                <thead>
-                                    <tr style="font-size: 16px;">
-                                        <th colspan="2" class="text-center">Datos del cliente</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style="font-size: 12px;">
-                                            <strong t-esc="doc.partner_id.name"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-size: 12px;">
-                                            <strong t-esc="'RFC: {}'.format(doc.partner_id.vat)"/>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-size: 12px;">
-                                            <strong t-esc="'Regimen fiscal:'"/>
-                                            <span t-esc="'({}) {}'.format(doc.partner_id.l10n_mx_edi_fiscal_regime, dict(doc.partner_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.partner_id.l10n_mx_edi_fiscal_regime))"/>
-
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td style="font-size: 12px;">
-                                            <strong t-esc="'Dirección:' "/>
-                                            <span t-esc="doc.partner_id.contact_address_complete"/>
-                                        </td>
-                                    </tr>
-
-                                </tbody>
-                            </table>
-                        </td>
-
-                        <td width="50%"
-                            style="border-left: 1px solid #000;border-right: 1px solid #000;padding-left: 10px;padding-right: 10px;!important">
-                            <table width="100%">
-                                <thead>
-                                    <tr style="font-size: 16px;">
-                                        <th colspan="2" class="text-center">Comprobante fiscal
-                                            digital
-                                        </th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td colspan="2" width="100%" style="font-size: 12px;">
-                                            <strong t-esc="'Fecha y hora:' "/>
-                                            <span t-esc="doc.date_order"/>
-                                        </td>
-                                    </tr>
-
-                                    <tr>
-                                        <td colspan="2" width="100%" style="font-size: 12px;">
-                                            <strong t-esc="'Lugar de expedición:' "/>
-                                            <span t-esc="doc.company_id.zip"/>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-                <!--___________________________________________________________-->
+                    <table width="100%">
+                        <tr>
+                            <td class="text-start">
+                                <span t-esc="doc.company_id.website"/>
+                            </td>
+                            <td class="text-center">
+                                <span t-esc="doc.company_id.phone or doc.company_id.mobile"/>
+                            </td>
+                            <td class="text-end">
+                                <span t-esc="doc.company_id.email"/>
+                            </td>
+                        </tr>
+                    </table>
+                    <!--___________________________________________________________-->
 
 
-                <!--Datos del vendedor-->
-                <!--___________________________________________________________-->
-                <table width="100%"
-                       style="text-align:right;font-size: 14px;">
-                    <tr>
-                        <td t-if="doc.client_order_ref"
-                            style="text-align:left;padding-top: 10px;padding-bottom: 5px;!important;">
-                            <strong t-esc="'Referencia: '"/>
-                            <span t-esc="doc.client_order_ref"/>
-                        </td>
-                        <td style="text-right:left;padding-top: 10px;padding-bottom: 5px;!important;">
-                            <strong t-esc="'Vendedor: '"/>
-                            <span t-esc="doc.user_id.name"/>
-                        </td>
-                    </tr>
-                </table>
+                    <!--Datos del cliente y fiscales-->
+                    <!--___________________________________________________________-->
+                    <table width="100%">
+                        <tr style="padding-top: 0px;!important">
+                            <th rowspan="4">
+                                <img t-if="doc.company_id.logo"
+                                     t-att-src="image_data_uri(doc.company_id.logo)"
+                                     style="height: 120px;width=50px" alt="Logo"/>
+                            </th>
+                            <th colspan="3">
+                                <table width="100%">
+                                    <thead>
+                                        <tr style="font-size: 14px;margin-top: 10px;!important;">
+                                            <th t-if="doc.company_id.vat"
+                                                style="padding-bottom: 5px;!important"
+                                                class="text-start"
+                                                t-esc="'RFC: ' + doc.company_id.vat"/>
+                                            <th class="text-start"
+                                                t-esc="'Regimen fiscal: ({}) {}'.format(doc.company_id.l10n_mx_edi_fiscal_regime, dict(doc.company_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.company_id.l10n_mx_edi_fiscal_regime))"/>
+                                        </tr>
+                                    </thead>
+                                </table>
+                            </th>
+                        </tr>
+                        <br/>
+                        <tr style="padding-top: 25px;!important">
+                            <td/>
+                            <td style="font-size: 14px;justify-content:normal;padding-bottom: 5px;"
+                                colspan="2"
+                                t-esc="doc.company_id.partner_id.contact_address_complete"/>
+                        </tr>
+                        <br/>
+                        <tr>
+                            <td/>
+                            <td width="50%"
+                                style="border-left: 1px solid #000;padding-left: 10px;!important">
+                                <table style="margin-top: 10px;!important" width="100%">
+                                    <thead>
+                                        <tr style="font-size: 16px;">
+                                            <th colspan="2" class="text-center">Datos del cliente</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td style="font-size: 12px;">
+                                                <strong t-esc="doc.partner_id.name"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 12px;">
+                                                <strong t-esc="'RFC: {}'.format(doc.partner_id.vat)"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 12px;">
+                                                <strong t-esc="'Regimen fiscal:'"/>
+                                                <span t-esc="'({}) {}'.format(doc.partner_id.l10n_mx_edi_fiscal_regime, dict(doc.partner_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.partner_id.l10n_mx_edi_fiscal_regime))"/>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-size: 12px;">
+                                                <strong t-esc="'Dirección:' "/>
+                                                <span t-esc="doc.partner_id.contact_address_complete"/>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </td>
+
+                            <td width="50%"
+                                style="border-left: 1px solid #000;border-right: 1px solid #000;padding-left: 10px;padding-right: 10px;!important">
+                                <table width="100%">
+                                    <thead>
+                                        <tr style="font-size: 16px;">
+                                            <th colspan="2" class="text-center">Comprobante fiscal
+                                                digital
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td colspan="2" width="100%" style="font-size: 12px;">
+                                                <strong t-esc="'Fecha y hora:' "/>
+                                                <span t-esc="doc.date_order"/>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td colspan="2" width="100%" style="font-size: 12px;">
+                                                <strong t-esc="'Lugar de expedición:' "/>
+                                                <span t-esc="doc.company_id.zip"/>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                    <!--___________________________________________________________-->
+
+
+                    <!--Datos del vendedor-->
+                    <!--___________________________________________________________-->
+                    <table width="100%"
+                           style="text-align:right;font-size: 14px;">
+                        <tr>
+                            <td t-if="doc.client_order_ref"
+                                style="text-align:left;padding-top: 10px;padding-bottom: 5px;!important;">
+                                <strong t-esc="'Referencia: '"/>
+                                <span t-esc="doc.client_order_ref"/>
+                            </td>
+                            <td style="text-right:left;padding-top: 10px;padding-bottom: 5px;!important;">
+                                <strong t-esc="'Vendedor: '"/>
+                                <span t-esc="doc.user_id.name"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
                 <!--___________________________________________________________-->
             </div>
         </template>
