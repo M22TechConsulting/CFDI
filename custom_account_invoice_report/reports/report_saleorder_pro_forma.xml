@@ -9,7 +9,8 @@
         <template id="custom_proforma_report_saleorder_document" inherit_id="sale.report_saleorder_pro_forma">
             <xpath expr="//t" position="replace">
                 <t t-call="web.html_container">
-                    <link rel="stylesheet" href="/server/addons/custom_account_invoice_report/static/src/scss/style.css"/>
+                    <link rel="stylesheet"
+                          href="/server/addons/custom_account_invoice_report/static/src/scss/style.css"/>
                     <t t-set="is_pro_forma" t-value="True"/>
                     <t t-set="docs" t-value="docs.with_context(proforma=True)"/>
                     <t t-foreach="docs" t-as="doc">
@@ -33,54 +34,53 @@
 
                         <t t-call="custom_account_invoice_report.report_header_document_custom"/>
 
-                        <div class="article without_border" t-att-data-oe-model="doc and doc._name"
+                        <div class="article border-0" t-att-data-oe-model="doc and doc._name"
                              t-att-data-oe-id="doc and doc.id" t-att-data-oe-lang="doc and doc.env.context.get('lang')">
                             <t t-out="0"/>
-                            <div class="page without_border">
+                            <div class="page border-0">
 
                                 <!--Datos de los productos-->
                                 <!--___________________________________________________________-->
                                 <t t-set="lines_to_report" t-value="doc._get_order_lines_to_report()"/>
                                 <t t-set="display_discount" t-value="any(l.discount for l in lines_to_report)"/>
 
-                                <table width="100%" style="border-collapse:collapse;"
-                                       class="table table-sm o_main_table without_border" name="sale_line_table">
-                                    <thead style="font-size: 14px;">
-                                        <tr class="without_border border-0">
-                                            <th name="th_quantity" class="text-center without_border border-0">
-                                                <span class="without_border border-0">Cantidad</span>
-                                            </th>
-                                            <th name="th_uom" class="text-center">
+                                <table width="100%" class="table-sm o_main_table table-borderless">
+                                    <thead style="font-size: 14px;" class="border-top-0 border-left-0 border-right-0">
+                                        <tr style="border-bottom: 1px solid black !important;">
+                                            <td name="th_quantity" class="text-center">
+                                                <span>Cantidad</span>
+                                            </td>
+                                            <td name="th_uom" class="text-center">
                                                 <span>Unidad</span>
-                                            </th>
-                                            <th name="th_uom_key" class="text-start">
+                                            </td>
+                                            <td name="th_uom_key" class="text-start">
                                                 <span>Clave Unidad</span>
-                                            </th>
-                                            <th name="th_sat_key" class="text-center">
+                                            </td>
+                                            <td name="th_sat_key" class="text-center">
                                                 <span>Clave Prod. Serv</span>
-                                            </th>
-                                            <th name="th_description" class="text-start">
+                                            </td>
+                                            <td name="th_description" class="text-start">
                                                 <span>Descripción</span>
-                                            </th>
-                                            <th name="th_price_unit"
+                                            </td>
+                                            <td name="th_price_unit"
                                                 t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                 <span>Desc.%</span>
-                                            </th>
-                                            <th name="th_priceunit"
+                                            </td>
+                                            <td name="th_priceunit"
                                                 t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                 <span>
                                                     P/U
                                                 </span>
-                                            </th>
-                                            <th name="th_subtotal" class="text-end">
+                                            </td>
+                                            <td name="th_subtotal" class="text-end">
                                                 <span groups="account.group_show_line_subtotals_tax_excluded">Importe
                                                 </span>
                                                 <span groups="account.group_show_line_subtotals_tax_included">Importe
                                                 </span>
-                                            </th>
+                                            </td>
                                         </tr>
                                     </thead>
-                                    <tbody style="font-size: 12px;" class="invoice_tbody">
+                                    <tbody style="font-size: 12px;" class="border-0">
                                         <t t-set="current_subtotal" t-value="0"/>
                                         <t t-foreach="lines_to_report" t-as="line">
                                             <t t-set="current_subtotal"
@@ -118,18 +118,6 @@
                                                               groups="account.group_show_line_subtotals_tax_included"/>
                                                     </td>
                                                 </t>
-                                                <t t-if="line.display_type == 'line_section'">
-                                                    <td class="border-0" colspan="99">
-                                                        <span t-field="line.name" t-options="{'widget': 'text'}"/>
-                                                    </td>
-                                                    <t t-set="current_section" t-value="line"/>
-                                                    <t t-set="current_subtotal" t-value="0"/>
-                                                </t>
-                                                <t t-if="line.display_type == 'line_note'">
-                                                    <td class="border-0" colspan="99">
-                                                        <span t-field="line.name" t-options="{'widget': 'text'}"/>
-                                                    </td>
-                                                </t>
                                             </tr>
                                             <tr t-if="doc._get_product_lot_ids(line.product_id)"
                                                 style="border:none;justify-content: normal;">
@@ -142,28 +130,19 @@
                                                 </td>
                                             </tr>
 
-                                            <t t-elif="line.display_type == 'line_section'">
-                                                <td class="border-0" name="td_section_line" colspan="99">
-                                                    <span t-field="line.name"/>
+                                            <t t-if="line.display_type == 'line_section'">
+                                                <td class="border-0" colspan="99">
+                                                    <span t-field="line.name" t-options="{'widget': 'text'}"/>
                                                 </td>
                                                 <t t-set="current_section" t-value="line"/>
                                                 <t t-set="current_subtotal" t-value="0"/>
                                             </t>
-                                            <t t-elif="line.display_type == 'line_note'">
-                                                <td class="border-0" name="td_note_line" colspan="99">
-                                                    <span t-field="line.name"/>
+                                            <t t-if="line.display_type == 'line_note'">
+                                                <td class="border-0" colspan="99">
+                                                    <span t-field="line.name" t-options="{'widget': 'text'}"/>
                                                 </td>
                                             </t>
 
-                                            <t t-if="current_section and (line_last or doc.order_line[line_index+1].display_type == 'line_section') and not line.is_downpayment">
-                                                <tr class="is-subtotal text-end">
-                                                    <td name="td_section_subtotal" colspan="99">
-                                                        <strong class="mr16">Subtotal</strong>
-                                                        <span t-out="current_subtotal"
-                                                              t-options="{&quot;widget&quot;: &quot;monetary&quot;, &quot;display_currency&quot;: doc.pricelist_id.currency_id}"/>
-                                                    </td>
-                                                </tr>
-                                            </t>
                                         </t>
                                     </tbody>
                                 </table>
@@ -173,11 +152,12 @@
 
                                         <div width="80%"
                                              t-attf-class="#{'col-6' if report_type != 'html' else 'col-sm-7 col-md-6'} ms-auto">
-                                            <table class="table table-sm" style="page-break-inside: avoid;">
+                                            <table class="table table-sm table-borderless"
+                                                   style="page-break-inside: avoid;">
                                                 <t t-set="tax_totals" t-value="doc.tax_totals"/>
 
                                                 <tr style="font-size:14px;">
-                                                    <td>
+                                                    <td class="border-0">
                                                         <strong>Subtotal</strong>
                                                     </td>
                                                     <td class="text-end">
@@ -190,27 +170,27 @@
                                                         <t t-set="discount"
                                                            t-value="discount + ((disc_line.discount / 100) * disc_line.price_unit * disc_line.product_uom_qty)"/>
                                                     </t>
-                                                    <td>
+                                                    <td class="border-0">
                                                         <strong>Descuento</strong>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-end border-0">
                                                         <span t-esc="'${0:,.2f}'.format(discount)"/>
                                                     </td>
                                                 </tr>
                                                 <tr style="font-size:14px;" class="border-black o_total">
-                                                    <td>
+                                                    <td class="border-0">
                                                         <strong>I.V.A</strong>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-end border-0">
                                                         <span t-esc="'${0:,.2f}'.format(doc.amount_tax)"/>
                                                     </td>
                                                 </tr>
 
                                                 <tr style="font-size:14px;" class="border-black o_total">
-                                                    <td>
+                                                    <td class="border-0">
                                                         <strong>Total</strong>
                                                     </td>
-                                                    <td class="text-end">
+                                                    <td class="text-end border-0">
                                                         <span t-esc="tax_totals['formatted_amount_total']"/>
                                                     </td>
                                                 </tr>
@@ -218,6 +198,35 @@
                                         </div>
                                     </div>
                                 </div>
+
+                                <!--Cuentas bancarias-->
+                                <t t-set="banks" t-value="doc.company_id.partner_id.bank_ids"/>
+                                <table width="100%" class="clearfix table-borderless" t-if="banks">
+                                    <tr>
+                                        <th style="text-align:left;" width="20%">
+                                            <strong>Cuentas bancarias:</strong>
+                                        </th>
+                                        <t t-foreach="banks" t-as="bank">
+                                            <th>
+                                                <table width="100%">
+                                                    <tr style="text-align: left;">
+                                                        <td style="font-size:14px;" t-esc="bank.bank_id.name"/>
+                                                    </tr>
+                                                    <tr style="font-size: 12px;text-align:left;">
+                                                        <td style="padding-right:0px;" width="100%">
+                                                            <span t-esc="'No. Cuenta: {}'.format(bank.acc_number)"/>
+                                                        </td>
+                                                    </tr>
+                                                    <tr style="font-size: 12px;text-align:left;">
+                                                        <td style="padding-left:0px;" width="100%">
+                                                            <span t-esc="'Clabe interbancaria: {}'.format(bank.l10n_mx_edi_clabe)"/>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </th>
+                                        </t>
+                                    </tr>
+                                </table>
 
                                 <div t-if="doc.signature" class="mt-4 ml64 mr4" name="signature">
                                     <div class="offset-8">

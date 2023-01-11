@@ -6,12 +6,11 @@
             <div class="header without_border">
                 <div>
                     <h5 class="text-center">
-                        <span style="font-family:Arial Greek;font-size: 22px"
-                              t-if="doc.company_id.name != '/'"
+                        <span style="font-family:Arial Greek;font-size: 22px" t-if="doc.company_id.name != '/'"
                               t-field="doc.company_id.name"/>
                     </h5>
 
-                    <table width="100%">
+                    <table class="table-borderless" width="100%">
                         <tr>
                             <td class="text-start border-o">
                                 <span t-esc="doc.company_id.website"/>
@@ -29,21 +28,18 @@
 
                     <!--Datos del cliente y fiscales-->
                     <!--___________________________________________________________-->
-                    <table width="100%">
+                    <table class="table-borderless" width="100%">
                         <tr style="padding-top: 0px;!important">
                             <th class="border-o" rowspan="4">
-                                <img t-if="doc.company_id.logo"
-                                     t-att-src="image_data_uri(doc.company_id.logo)"
+                                <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
                                      style="height: 120px;width=50px" alt="Logo"/>
                             </th>
                             <th class="border-o" colspan="3">
                                 <table width="100%">
                                     <thead>
                                         <tr style="font-size: 14px;margin-top: 10px;!important;">
-                                            <th t-if="doc.company_id.vat"
-                                                style="padding-bottom: 5px;!important"
-                                                class="text-start border-o"
-                                                t-esc="'RFC: ' + doc.company_id.vat"/>
+                                            <th t-if="doc.company_id.vat" style="padding-bottom: 5px;!important"
+                                                class="text-start border-o" t-esc="'RFC: ' + doc.company_id.vat"/>
                                             <th class="text-start border-o"
                                                 t-esc="'Regimen fiscal: ({}) {}'.format(doc.company_id.l10n_mx_edi_fiscal_regime, dict(doc.company_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.company_id.l10n_mx_edi_fiscal_regime))"/>
                                         </tr>
@@ -55,8 +51,7 @@
                         <tr style="padding-top: 25px;!important">
                             <td class="border-o"/>
                             <td class="border-o" style="font-size: 14px;justify-content:normal;padding-bottom: 5px;"
-                                colspan="2"
-                                t-esc="doc.company_id.partner_id.contact_address_complete"/>
+                                colspan="2" t-esc="doc.company_id.partner_id.contact_address_complete"/>
                         </tr>
                         <br/>
                         <tr>
@@ -133,8 +128,7 @@
 
                     <!--Datos del vendedor-->
                     <!--___________________________________________________________-->
-                    <table width="100%"
-                           style="text-align:right;font-size: 14px;">
+                    <table class="table-borderless" width="100%" style="text-align:right;font-size: 14px;">
                         <tr>
                             <td class="border-o" t-if="doc.name"
                                 style="text-align:left;padding-top: 10px;padding-bottom: 5px;!important;">
@@ -142,19 +136,20 @@
                                 <span t-esc="doc.name"/>
                             </td>
 
-                            <td class="border-o" t-if="doc.partner_shipping_id"
-                                style="text-align:left;padding-top: 10px;padding-bottom: 5px;!important;">
-                                <strong t-esc="'Dirección de entrega: '"/>
-                                <span t-esc="doc.partner_shipping_id.contact_address_complete"/>
-                            </td>
-
-                            <td class="border-o" style="text-right:left;padding-top: 10px;padding-bottom: 5px;!important;">
+                            <td class="border-o"
+                                style="text-right:left;padding-top: 10px;padding-bottom: 5px;!important;">
                                 <strong t-esc="'Vendedor: '"/>
                                 <span t-esc="doc.user_id.name"/>
                             </td>
                         </tr>
                     </table>
+
+                    <div class="row" style="font-size:14px;">
+                        <strong t-esc="'Dirección de entrega: '"/>
+                        <span t-esc="doc.partner_shipping_id.contact_address_complete"/>
+                    </div>
                 </div>
+
 
                 <!--___________________________________________________________-->
             </div>
