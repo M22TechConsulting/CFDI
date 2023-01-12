@@ -90,6 +90,13 @@
                                             </td>
                                         </tr>
 
+                                        <tr>
+                                            <td class="border-o" style="font-size: 12px;">
+                                                <strong t-esc="'Dirección de entrega:'"/>
+                                                <span t-esc="doc.partner_shipping_id.contact_address_complete"/>
+                                            </td>
+                                        </tr>
+
                                     </tbody>
                                 </table>
                             </td>
@@ -143,14 +150,7 @@
                             </td>
                         </tr>
                     </table>
-
-                    <div class="row" style="font-size:14px;">
-                        <strong t-esc="'Dirección de entrega: '"/>
-                        <span t-esc="doc.partner_shipping_id.contact_address_complete"/>
-                    </div>
                 </div>
-
-
                 <!--___________________________________________________________-->
             </div>
         </template>
