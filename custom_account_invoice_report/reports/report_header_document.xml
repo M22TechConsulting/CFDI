@@ -92,7 +92,7 @@
 
                                         <tr>
                                             <td class="border-o" style="font-size: 12px;">
-                                                <strong t-esc="'Dirección de entrega:'"/>
+                                                <strong t-esc="'Dirección de entrega: '"/>
                                                 <span t-esc="doc.partner_shipping_id.contact_address_complete"/>
                                             </td>
                                         </tr>

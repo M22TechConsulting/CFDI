@@ -90,33 +90,53 @@
                                             <tr style="border:none;"
                                                 t-att-class="'bg-200 fw-bold o_line_section' if line.display_type == 'line_section' else 'fst-italic o_line_note' if line.display_type == 'line_note' else ''">
                                                 <t name="account_invoice_line_accountable">
-                                                    <td class="text-center border-0">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        class="text-center border-0">
                                                         <span t-field="line.product_uom_qty"/>
                                                     </td>
-                                                    <td class="text-center border-0">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        class="text-center border-0">
                                                         <span t-field="line.product_uom"/>
                                                     </td>
-                                                    <td class="text-start border-0">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        class="text-start border-0">
                                                         <span t-field="line.product_uom.unspsc_code_id.code"/>
                                                     </td>
-                                                    <td class="text-start border-0">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        class="text-start border-0">
                                                         <span t-field="line.product_id.unspsc_code_id.code"/>
                                                     </td>
-                                                    <td class="border-0" name="account_invoice_line_name">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        class="border-0" name="account_invoice_line_name">
                                                         <span t-field="line.name" t-options="{'widget': 'text'}"/>
                                                     </td>
-                                                    <td t-attf-class="text-end border-0 {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        t-attf-class="text-end border-0 {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                         <span class="text-nowrap" t-field="line.discount"/>
                                                     </td>
-                                                    <td t-attf-class="text-end border-0 {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        t-attf-class="text-end border-0 {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                         <span class="text-nowrap" t-field="line.price_unit"/>
                                                     </td>
-                                                    <td class="text-end o_price_total border-0">
+                                                    <td t-if="line.display_type not in ['line_note','line_section']"
+                                                        class="text-end o_price_total border-0">
                                                         <span class="text-nowrap" t-field="line.price_subtotal"
                                                               groups="account.group_show_line_subtotals_tax_excluded"/>
                                                         <span class="text-nowrap" t-field="line.price_total"
                                                               groups="account.group_show_line_subtotals_tax_included"/>
                                                     </td>
+
+                                                    <t t-if="line.display_type == 'line_section'">
+                                                        <td class="border-0" colspan="99">
+                                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                                        </td>
+                                                    </t>
+
+                                                    <t t-if="line.display_type == 'line_note'">
+                                                        <td class="border-0" colspan="99">
+                                                            <span t-field="line.name" t-options="{'widget': 'text'}"/>
+                                                        </td>
+                                                    </t>
                                                 </t>
                                             </tr>
                                             <tr t-if="doc._get_product_lot_ids(line.product_id)"
@@ -129,12 +149,6 @@
                                                     </t>
                                                 </td>
                                             </tr>
-
-                                            <t t-if="line.display_type == 'line_note'">
-                                                <td class="border-0" colspan="99">
-                                                    <span t-field="line.name" t-options="{'widget': 'text'}"/>
-                                                </td>
-                                            </t>
 
                                         </t>
                                     </tbody>
@@ -194,7 +208,7 @@
 
                                 <t>
                                     <p>
-                                        <strong style="font-size:12px;" t-esc="doc._amount_to_text_proforma()['words']"/>
+                                        <strong style="font-size:12px;" t-esc="doc._amount_to_text_proforma()"/>
                                     </p>
                                 </t>
 
