@@ -10,5 +10,3 @@ class AccountMove(models.Model):
                 return sale_order_id.partner_id.commercial_partner_id.name if sale_order_id else rec.partner_id.commercial_partner_id.name
             else:
                 return False
-
-
