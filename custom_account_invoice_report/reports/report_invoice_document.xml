@@ -33,6 +33,7 @@
                     <t t-set="o" t-value="o.with_context(lang=lang)"/>
                     <t t-set="cfdi_vals" t-value="o._l10n_mx_edi_decode_cfdi()"/>
                     <t t-set="is_cfdi_signed" t-value="bool(o._get_l10n_mx_edi_signed_edi_document())"/>
+                    <t t-set="partner_name" t-value="o._get_sale_order_partner_name()"/>
                     <t t-set="forced_vat"
                        t-value="o.fiscal_position_id.foreign_vat"/> <!-- So that it appears in the footer of the report instead of the company VAT if it's set -->
 
@@ -94,7 +95,12 @@
                                         <tbody>
                                             <tr>
                                                 <td style="font-size: 12px;">
-                                                    <strong t-esc="o.partner_id.name"/>
+                                                    <strong t-esc="o.partner_id.commercial_partner_id.name"/>
+                                                </td>
+                                            </tr>
+                                            <tr t-if="partner_name">
+                                                <td style="font-size: 12px;">
+                                                    <strong t-esc="partner_name"/>
                                                 </td>
                                             </tr>
                                             <tr>
@@ -105,14 +111,21 @@
                                             <tr>
                                                 <td style="font-size: 12px;">
                                                     <strong t-esc="'C.P: ' "/>
-                                                    <span t-esc="o.partner_id.zip"/>
+                                                    <span t-esc="o.partner_id.commercial_partner_id.zip"/>
                                                 </td>
                                             </tr>
                                             <tr>
                                                 <td style="font-size: 12px;">
                                                     <strong t-esc="'Regimen fiscal: '"/>
-                                                    <span t-esc="'({}) {}'.format(o.partner_id.l10n_mx_edi_fiscal_regime, dict(o.partner_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(o.env)).get(o.partner_id.l10n_mx_edi_fiscal_regime))"/>
+                                                    <span t-esc="'({}) {}'.format(o.partner_id.commercial_partner_id.l10n_mx_edi_fiscal_regime, dict(o.partner_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(o.env)).get(o.partner_id.commercial_partner_id.l10n_mx_edi_fiscal_regime))"/>
 
+                                                </td>
+                                            </tr>
+
+                                            <tr>
+                                                <td style="font-size: 12px;">
+                                                    <strong t-esc="'Dirección entrega: '"/>
+                                                    <span t-esc="o.partner_shipping_id.contact_address_complete"/>
                                                 </td>
                                             </tr>
 
@@ -298,11 +311,6 @@
                                 </tr>
                             </table>
 
-                            <div class="row" style="font-size:14px;">
-                                <strong t-esc="'Dirección de entrega: '"/>
-                                <span t-esc="o.partner_shipping_id.contact_address_complete"/>
-                            </div>
-
                             <t t-set="display_discount" t-value="any(l.discount for l in o.invoice_line_ids)"/>
 
                             <table width="100%" style="border-collapse:collapse;" class="table table-sm o_main_table"
@@ -323,10 +331,6 @@
                                         </th>
                                         <th name="th_description" class="text-start">
                                             <span>Descripción</span>
-                                        </th>
-                                        <th name="th_price_unit"
-                                            t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                            <span>Desc.%</span>
                                         </th>
                                         <th name="th_priceunit"
                                             t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
@@ -370,9 +374,6 @@
                                                 </td>
                                                 <td name="account_invoice_line_name">
                                                     <span t-field="line.name" t-options="{'widget': 'text'}"/>
-                                                </td>
-                                                <td t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                                    <span class="text-nowrap" t-field="line.discount"/>
                                                 </td>
                                                 <td t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                     <span class="text-nowrap" t-field="line.price_unit"/>
@@ -476,10 +477,39 @@
                             </div>
 
                             <t t-if="is_cfdi_signed">
-                                <p>
+                                <p class="text-end">
                                     <strong style="font-size:12px;" t-esc="o._l10n_mx_edi_cfdi_amount_to_text()"/>
                                 </p>
                             </t>
+
+                            <!--Cuentas bancarias-->
+                            <t t-set="banks" t-value="o.company_id.partner_id.bank_ids"/>
+                            <table width="100%" class="clearfix" t-if="banks and o.move_type == 'out_invoice'">
+                                <tr>
+                                    <th style="text-align:left;" width="20%">
+                                        <strong>Cuentas bancarias:</strong>
+                                    </th>
+                                    <t t-foreach="banks" t-as="bank">
+                                        <th>
+                                            <table width="100%">
+                                                <tr style="text-align: left;">
+                                                    <td style="font-size:14px;" t-esc="bank.bank_id.name"/>
+                                                </tr>
+                                                <tr style="font-size: 12px;text-align:left;">
+                                                    <td style="padding-right:0px;" width="100%">
+                                                        <span t-esc="'No. Cuenta: {}'.format(bank.acc_number)"/>
+                                                    </td>
+                                                </tr>
+                                                <tr style="font-size: 12px;text-align:left;">
+                                                    <td style="padding-left:0px;" width="100%">
+                                                        <span t-esc="'Clabe interbancaria: {}'.format(bank.l10n_mx_edi_clabe)"/>
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </th>
+                                    </t>
+                                </tr>
+                            </table>
 
                             <t t-if="is_cfdi_signed">
                                 <div class="row" id="complement">
@@ -531,35 +561,6 @@
                                     </div>
                                 </div>
                             </t>
-
-                            <!--Cuentas bancarias-->
-                            <t t-set="banks" t-value="o.company_id.partner_id.bank_ids"/>
-                            <table width="100%" class="clearfix" t-if="banks and o.move_type == 'out_invoice'">
-                                <tr>
-                                    <th style="text-align:left;" width="20%">
-                                        <strong>Cuentas bancarias:</strong>
-                                    </th>
-                                    <t t-foreach="banks" t-as="bank">
-                                        <th>
-                                            <table width="100%">
-                                                <tr style="text-align: left;">
-                                                    <td style="font-size:14px;" t-esc="bank.bank_id.name"/>
-                                                </tr>
-                                                <tr style="font-size: 12px;text-align:left;">
-                                                    <td style="padding-right:0px;" width="100%">
-                                                        <span t-esc="'No. Cuenta: {}'.format(bank.acc_number)"/>
-                                                    </td>
-                                                </tr>
-                                                <tr style="font-size: 12px;text-align:left;">
-                                                    <td style="padding-left:0px;" width="100%">
-                                                        <span t-esc="'Clabe interbancaria: {}'.format(bank.l10n_mx_edi_clabe)"/>
-                                                    </td>
-                                                </tr>
-                                            </table>
-                                        </th>
-                                    </t>
-                                </tr>
-                            </table>
 
                             <div t-if="o.move_type != 'out_invoice'" class="clearfix mb-4">
                                 <div id="total" class="row">

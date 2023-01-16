@@ -62,10 +62,6 @@
                                             <td name="th_description" class="text-start">
                                                 <span>Descripción</span>
                                             </td>
-                                            <td name="th_price_unit"
-                                                t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                                <span>Desc.%</span>
-                                            </td>
                                             <td name="th_priceunit"
                                                 t-attf-class="text-end {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                                 <span>
@@ -109,10 +105,6 @@
                                                     <td t-if="line.display_type not in ['line_note','line_section']"
                                                         class="border-0" name="account_invoice_line_name">
                                                         <span t-field="line.name" t-options="{'widget': 'text'}"/>
-                                                    </td>
-                                                    <td t-if="line.display_type not in ['line_note','line_section']"
-                                                        t-attf-class="text-end border-0 {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                                        <span class="text-nowrap" t-field="line.discount"/>
                                                     </td>
                                                     <td t-if="line.display_type not in ['line_note','line_section']"
                                                         t-attf-class="text-end border-0 {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
@@ -207,7 +199,7 @@
                                 </div>
 
                                 <t>
-                                    <p>
+                                    <p class="text-end">
                                         <strong style="font-size:12px;" t-esc="doc._amount_to_text_proforma()"/>
                                     </p>
                                 </t>
