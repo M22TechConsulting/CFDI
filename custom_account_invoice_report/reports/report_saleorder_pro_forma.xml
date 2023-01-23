@@ -131,7 +131,7 @@
                                                     </t>
                                                 </t>
                                             </tr>
-                                            <tr t-if="doc._get_product_lot_ids(line.product_id)"
+                                            <tr t-if="doc._get_product_lot_ids(line.product_id) and line.product_uom_qty > 0"
                                                 style="border:none;justify-content: normal;">
                                                 <t t-set="lot_ids" t-value="list()"/>
                                                 <td class="border-0" colspan="99">
