@@ -9,17 +9,17 @@
                 <table class="table-borderless" width="100%">
                     <tr style="padding-top: 0px;!important">
                         <th class="border-o" rowspan="4">
-                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
+                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
                                  style="height: 120px;width=50px" alt="Logo"/>
                         </th>
                         <th class="border-o" colspan="3">
                             <table width="100%">
                                 <thead>
                                     <tr style="font-size: 14px;margin-top: 10px;!important;">
-                                        <th t-if="doc.company_id.vat" style="padding-bottom: 5px;!important"
-                                            class="text-start border-o" t-esc="'RFC: ' + doc.company_id.vat"/>
+                                        <th t-if="o.company_id.vat" style="padding-bottom: 5px;!important"
+                                            class="text-start border-o" t-esc="'RFC: ' + o.company_id.vat"/>
                                         <th class="text-start border-o"
-                                            t-esc="'Regimen fiscal: ({}) {}'.format(doc.company_id.l10n_mx_edi_fiscal_regime, dict(doc.company_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.company_id.l10n_mx_edi_fiscal_regime))"/>
+                                            t-esc="'Regimen fiscal: ({}) {}'.format(o.company_id.l10n_mx_edi_fiscal_regime, dict(o.company_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(o.env)).get(o.company_id.l10n_mx_edi_fiscal_regime))"/>
                                     </tr>
                                 </thead>
                             </table>
@@ -38,12 +38,12 @@
                                 <tbody>
                                     <tr>
                                         <td class="border-o" style="font-size: 12px;">
-                                            <strong t-esc="doc.partner_id.name"/>
+                                            <strong t-esc="o.partner_id.name"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td class="border-o" style="font-size: 12px;">
-                                            <strong t-esc="'RFC: {}'.format(doc.partner_id.vat)"/>
+                                            <strong t-esc="'RFC: {}'.format(o.partner_id.vat)"/>
                                         </td>
                                     </tr>
 
@@ -65,14 +65,14 @@
                                     <tr>
                                         <td class="border-o" colspan="2" width="100%" style="font-size: 12px;">
                                             <strong t-esc="'Fecha y hora:' "/>
-                                            <span t-esc="doc.date_order"/>
+                                            <span t-esc="o.date_order"/>
                                         </td>
                                     </tr>
 
                                     <tr>
                                         <td class="border-o" colspan="2" width="100%" style="font-size: 12px;">
                                             <strong t-esc="'Lugar de expedición:' "/>
-                                            <span t-esc="doc.company_id.zip"/>
+                                            <span t-esc="o.company_id.zip"/>
                                         </td>
                                     </tr>
                                 </tbody>
