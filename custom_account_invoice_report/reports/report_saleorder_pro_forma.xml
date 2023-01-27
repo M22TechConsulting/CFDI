@@ -112,7 +112,7 @@
                                                     </td>
                                                     <td t-if="line.display_type not in ['line_note','line_section']"
                                                         class="text-end o_price_total border-0">
-                                                        <t t-set="subtotal" t-value="(line.price_unit * line.discount / 100) * line.product_uom_qty"/>
+                                                        <t t-set="subtotal" t-value="(line.price_unit - line.price_unit * line.discount / 100) * line.product_uom_qty"/>
                                                         <span class="text-nowrap" t-esc="'$ {}'.format(subtotal)"
                                                               groups="account.group_show_line_subtotals_tax_excluded"/>
                                                         <span class="text-nowrap" t-esc="'$ {}'.format(subtotal)"

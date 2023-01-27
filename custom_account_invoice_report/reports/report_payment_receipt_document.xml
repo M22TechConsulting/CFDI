@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <template id="report_payment_document_inherit_custom" inherit_id="l10n_mx_edi.report_payment_receipt_document">
+            <xpath expr="//h3" position="after">
+                <!--Datos del cliente y fiscales-->
+                <!--___________________________________________________________-->
+                <table class="table-borderless" width="100%">
+                    <tr style="padding-top: 0px;!important">
+                        <th class="border-o" rowspan="4">
+                            <img t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)"
+                                 style="height: 120px;width=50px" alt="Logo"/>
+                        </th>
+                        <th class="border-o" colspan="3">
+                            <table width="100%">
+                                <thead>
+                                    <tr style="font-size: 14px;margin-top: 10px;!important;">
+                                        <th t-if="doc.company_id.vat" style="padding-bottom: 5px;!important"
+                                            class="text-start border-o" t-esc="'RFC: ' + doc.company_id.vat"/>
+                                        <th class="text-start border-o"
+                                            t-esc="'Regimen fiscal: ({}) {}'.format(doc.company_id.l10n_mx_edi_fiscal_regime, dict(doc.company_id._fields['l10n_mx_edi_fiscal_regime']._description_selection(doc.env)).get(doc.company_id.l10n_mx_edi_fiscal_regime))"/>
+                                    </tr>
+                                </thead>
+                            </table>
+                        </th>
+                    </tr>
+                    <tr>
+                        <td class="border-o"/>
+                        <td class="border-o" width="50%"
+                            style="border-left: 1px solid #000;padding-left: 10px;!important">
+                            <table style="margin-top: 10px;!important" width="100%">
+                                <thead>
+                                    <tr style="font-size: 16px;">
+                                        <th colspan="2" class="text-center border-o">Datos del cliente</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border-o" style="font-size: 12px;">
+                                            <strong t-esc="doc.partner_id.name"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="border-o" style="font-size: 12px;">
+                                            <strong t-esc="'RFC: {}'.format(doc.partner_id.vat)"/>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </td>
+
+                        <td width="50%"
+                            style="border-left: 1px solid #000;border-right: 1px solid #000;padding-left: 10px;padding-right: 10px;!important">
+                            <table width="100%">
+                                <thead>
+                                    <tr style="font-size: 16px;">
+                                        <th colspan="2" class="text-center border-o">Comprobante fiscal
+                                            digital
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="border-o" colspan="2" width="100%" style="font-size: 12px;">
+                                            <strong t-esc="'Fecha y hora:' "/>
+                                            <span t-esc="doc.date_order"/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td class="border-o" colspan="2" width="100%" style="font-size: 12px;">
+                                            <strong t-esc="'Lugar de expedición:' "/>
+                                            <span t-esc="doc.company_id.zip"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+                <!--___________________________________________________________-->
+            </xpath>
+        </template>
+
+    </data>
+</odoo>

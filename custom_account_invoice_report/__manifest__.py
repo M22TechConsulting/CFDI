@@ -15,7 +15,8 @@
     'data': [
         'reports/report_header_document.xml',
         'reports/report_invoice_document.xml',
-        'reports/report_saleorder_pro_forma.xml'
+        'reports/report_saleorder_pro_forma.xml',
+        'reports/report_payment_receipt_document.xml'
     ],
     'assets': {
         'web.report_assets_common': [
