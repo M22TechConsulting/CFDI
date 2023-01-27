@@ -8,10 +8,6 @@
                 <!--___________________________________________________________-->
                 <table class="table-borderless" width="100%">
                     <tr style="padding-top: 0px;!important">
-                        <th class="border-o" rowspan="4">
-                            <img t-if="o.company_id.logo" t-att-src="image_data_uri(o.company_id.logo)"
-                                 style="height: 120px;width=50px" alt="Logo"/>
-                        </th>
                         <th class="border-o" colspan="3">
                             <table width="100%">
                                 <thead>
@@ -89,14 +85,26 @@
                 </table>
                 <!--___________________________________________________________-->
             </xpath>
-        </template>
 
-        <template id="report_payment_document_inherit_custom_mx" inherit_id="l10n_mx_edi.report_payment_document_mx">
-            <xpath expr="//table/table[1]" position="after">
-                <h2>Hola</h2>
+            <xpath expr="//div/div" position="inside">
+                <div class="row">
+                    <div class="col-6" t-if="o.currency_id">
+                        Moneda de pago: <span t-esc="o.currency_id.name"/>
+                    </div>
+                </div>
             </xpath>
         </template>
 
+        <template id="report_payment_document_inherit_custom_mx" inherit_id="l10n_mx_edi.report_payment_document_mx">
+            <xpath expr="//table[2]//thead//th[7]" position="after">
+                <th>Método de pago</th>
+            </xpath>
+
+            <xpath expr="//table[2]//tbody//td[7]" position="after">
+                <td style="text-align:center;"><span
+                        t-esc="o.reconciled_invoice_ids.filtered(lambda i: i.l10n_mx_edi_cfdi_uuid == inv.get('IdDocumento')).l10n_mx_edi_payment_policy or ''"/></td>
+            </xpath>
+        </template>
 
 
     </data>
