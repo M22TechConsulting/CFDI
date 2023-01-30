@@ -110,15 +110,14 @@
                                                         </td>
                                                         <td t-if="line.display_type not in ['line_note','line_section']"
                                                             t-attf-class="text-end border-0 {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
-                                                            <span class="text-nowrap" t-field="line.price_unit"/>
+                                                            <span class="text-nowrap" t-esc="'$ {0:,.2f}'.format(line.price_unit / 1.16)"/>
                                                         </td>
                                                         <td t-if="line.display_type not in ['line_note','line_section']"
                                                             class="text-end o_price_total border-0">
-                                                            <t t-set="subtotal"
-                                                               t-value="(line.price_unit - line.price_unit * line.discount / 100) * line.product_uom_qty"/>
-                                                            <span class="text-nowrap" t-esc="'$ {}'.format(subtotal)"
+                                                            <t t-set="subtotal" t-value="line.price_subtotal / 1.16"/>
+                                                            <span class="text-nowrap" t-esc="'$ {0:,.2f}'.format(subtotal)"
                                                                   groups="account.group_show_line_subtotals_tax_excluded"/>
-                                                            <span class="text-nowrap" t-esc="'$ {}'.format(subtotal)"
+                                                            <span class="text-nowrap" t-esc="'$ {0:,.2f}'.format(subtotal)"
                                                                   groups="account.group_show_line_subtotals_tax_included"/>
                                                         </td>
 
