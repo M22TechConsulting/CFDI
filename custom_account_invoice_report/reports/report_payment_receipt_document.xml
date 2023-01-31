@@ -43,7 +43,7 @@
                                         </td>
                                     </tr>
 
-                                    <t t-set="invoice_usage" t-esc="o.reconciled_invoice_ids"/>
+                                    <t t-set="invoice_usage" t-value="o.reconciled_invoice_ids"/>
                                     <t t-if="invoice_usage">
                                         <tr>
                                             <td style="font-size: 12px;">
