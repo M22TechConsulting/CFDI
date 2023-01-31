@@ -79,7 +79,7 @@
                                     <tbody style="font-size: 12px;" class="border-0">
                                         <t t-set="current_subtotal" t-value="0"/>
                                         <t t-foreach="lines_to_report" t-as="line">
-                                            <t t-if="line.product_uom_qty &gt; 0 and line.display_type not in ['line_note','line_section']">
+                                            <t t-if="line.product_uom_qty &gt; 0 or line.display_type not in ['line_note','line_section']">
                                                 <t t-set="current_subtotal"
                                                    t-value="current_subtotal + line.price_subtotal"/>
                                                 <t t-set="current_subtotal"
