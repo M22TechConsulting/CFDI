@@ -43,13 +43,15 @@
                                         </td>
                                     </tr>
 
-                                    <tr>
-                                        <td style="font-size: 12px;">
-                                            <strong t-esc="'Uso de CFDI:' "/>
-                                            <span t-esc="'({}) {}'.format(o.l10n_mx_edi_usage, dict(o._fields['l10n_mx_edi_usage']._description_selection(o.env)).get(o.l10n_mx_edi_usage))"/>
-                                        </td>
-                                    </tr>
-
+                                    <t t-set="invoice_usage" t-esc="o.reconciled_invoice_ids"/>
+                                    <t t-if="invoice_usage">
+                                        <tr>
+                                            <td style="font-size: 12px;">
+                                                <strong t-esc="'Uso de CFDI:' "/>
+                                                <span t-esc="'({}) {}'.format(invoice_usage[0].l10n_mx_edi_usage, dict(invoice_usage._fields['l10n_mx_edi_usage']._description_selection(o.env)).get(invoice_usage[0].l10n_mx_edi_usage))"/>
+                                            </td>
+                                        </tr>
+                                    </t>
                                 </tbody>
                             </table>
                         </td>
